@@ -43,7 +43,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 local utils = require "kong.tools.utils"
 local Errors = require "kong.db.errors"
-local az = require("kong.plugins.jwks_aware_oauth_jwt_access_token_validator.authorization")
+local az = require("kong.plugins.oauth_jwks_validator.authorization")
 
 local function check_user(anonymous)
   if anonymous == "" or utils.is_valid_uuid(anonymous) then
@@ -82,7 +82,7 @@ return {
     anonymous = {type = "string", default = "", func = check_user},
     filters = { type = "string" },
     enable_authorization_rules = { type = "boolean", required = true, default = false },
-    authorization_claim_name = { type = "string", required = "true", default = "roles" },
+    authorization_claim_name = { type = "string", required = true, default = "roles" },
     implicit_authorize = { type = "boolean", required = true, default = false},
     whitelist = { type = "array", required = true, default = {}},
     blacklist = { type = "array", required = true, default = {}}

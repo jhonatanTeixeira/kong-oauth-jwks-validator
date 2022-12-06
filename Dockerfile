@@ -1,27 +1,39 @@
-FROM kong:0.13
+ARG KONG_BASE=kong:latest
 
 
-RUN apk update && apk upgrade && \
-    apk add --no-cache bash git openssh && \
-    apk add --no-cache curl && \
-    apk add --no-cache gcc musl-dev && \
-    apk add --no-cache openssl && \
-    apk add --no-cache openssl-dev && \
-    rm -rf /var/cache/apk/*
+
+FROM ${KONG_BASE} AS build
+
+ARG PLUGINS
+ENV INJECTED_PLUGINS=${PLUGINS}
+
+ARG TEMPLATE=empty_file
+ENV TEMPLATE=${TEMPLATE}
+
+ARG ROCKS_DIR=empty_file
+ENV ROCKS_DIR=${ROCKS_DIR}
+
+ARG KONG_LICENSE_DATA
+ENV KONG_LICENSE_DATA=${KONG_LICENSE_DATA}
+
+COPY $TEMPLATE /plugins/custom_nginx.conf
+COPY $ROCKS_DIR /rocks-server
+COPY packer.lua /packer.lua
+
+USER root
+
+RUN apk add openssl-dev
+RUN /usr/local/openresty/luajit/bin/luajit /packer.lua -- "$INJECTED_PLUGINS"
 
 
-# Install plugin dependencies
-RUN luarocks install lua-resty-openidc
-RUN luarocks install kong-oidc
+FROM ${KONG_BASE}
 
+COPY --from=build /plugins /plugins
 
-RUN git clone https://bitbucket.org/gt_tech/jwks_aware_oauth_jwt_access_token_validator.git /tmp/jwt \
-&& cd /tmp/jwt && git checkout tags/release-v0.1-1 \
-&& mv /tmp/jwt/kong/plugins/jwks_aware_oauth_jwt_access_token_validator /usr/local/share/lua/5.1/kong/plugins/jwks_aware_oauth_jwt_access_token_validator
+USER root
 
-#COPY ./kong/plugins/jwks_aware_oauth_jwt_access_token_validator /usr/local/share/lua/5.1/kong/plugins/jwks_aware_oauth_jwt_access_token_validator
+RUN /plugins/install_plugins.sh
 
-ENV KONG_CUSTOM_PLUGINS=jwks_aware_oauth_jwt_access_token_validator
+HEALTHCHECK --interval=10s --timeout=10s --retries=10 CMD kong health
 
-CMD ["/usr/local/openresty/nginx/sbin/nginx", "-c", "/usr/local/kong/nginx.conf", "-p", "/usr/local/kong/"]
-
+USER kong
