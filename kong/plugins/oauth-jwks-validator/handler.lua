@@ -44,8 +44,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 local BasePlugin = require "kong.plugins.base_plugin"
 local JwksAwareJwtAccessTokenHandler = BasePlugin:extend()
-local openidc = require("kong.plugins.oauth_jwks_validator.resty-lib.openidc")
-local az = require("kong.plugins.oauth_jwks_validator.authorization")
+local openidc = require("kong.plugins.oauth-jwks-validator.resty-lib.openidc")
+local az = require("kong.plugins.oauth-jwks-validator.authorization")
 local utils = require("kong.plugins.oidc.utils")
 local filter = require("kong.plugins.oidc.filter")
 local singletons = require "kong.singletons"

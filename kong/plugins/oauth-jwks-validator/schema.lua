@@ -43,7 +43,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 local utils = require "kong.tools.utils"
 local Errors = require "kong.db.errors"
-local az = require("kong.plugins.oauth_jwks_validator.authorization")
+local az = require("kong.plugins.oauth-jwks-validator.authorization")
 
 local function check_user(anonymous)
   if anonymous == "" or utils.is_valid_uuid(anonymous) then

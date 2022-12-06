@@ -39,6 +39,7 @@ services:
       - TOKEN_SECRET=consigmais_secrets
       - DB_HOST=konga-database
       - DB_ADAPTER=mongo
+      - NO_AUTH=true
     ports:
       - "1337:1337"
 

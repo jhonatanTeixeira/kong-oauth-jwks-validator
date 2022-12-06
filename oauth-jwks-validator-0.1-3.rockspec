@@ -1,9 +1,9 @@
 package = "oauth-jwks-validator"
-version = "0.1-2"
+version = "0.1-3"
 supported_platforms = {"linux", "macosx"}
 source = {
   url = "git://github.com/jhonatanTeixeira/kong-oauth-jwks-validator",
-  tag = "v0.1-2"
+  tag = "v0.1-3"
 }
 description = {
   summary = "Kong Oauth JWKS validator",
@@ -21,9 +21,9 @@ dependencies = {
 build = {
   type = "builtin",
   modules = {
-    ["kong.plugins.oauth_jwks_validator.schema"] = "kong/plugins/oauth_jwks_validator/schema.lua",
-    ["kong.plugins.oauth_jwks_validator.handler"] = "kong/plugins/oauth_jwks_validator/handler.lua",
-    ["kong.plugins.oauth_jwks_validator.authorization"] = "kong/plugins/oauth_jwks_validator/authorization.lua",
-    ["kong.plugins.oauth_jwks_validator.resty-lib.openidc"] = "kong/plugins/oauth_jwks_validator/resty-lib/openidc.lua"
+    ["kong.plugins.oauth-jwks-validator.schema"] = "kong/plugins/oauth-jwks-validator/schema.lua",
+    ["kong.plugins.oauth-jwks-validator.handler"] = "kong/plugins/oauth-jwks-validator/handler.lua",
+    ["kong.plugins.oauth-jwks-validator.authorization"] = "kong/plugins/oauth-jwks-validator/authorization.lua",
+    ["kong.plugins.oauth-jwks-validator.resty-lib.openidc"] = "kong/plugins/oauth-jwks-validator/resty-lib/openidc.lua"
   },
 }
