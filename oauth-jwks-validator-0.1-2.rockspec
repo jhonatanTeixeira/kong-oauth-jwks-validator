@@ -1,9 +1,9 @@
 package = "oauth-jwks-validator"
-version = "0.1-1"
+version = "0.1-2"
 supported_platforms = {"linux", "macosx"}
 source = {
-  url = "https://github.com/jhonatanTeixeira/kong-oauth-jwks-validator.git",
-  tag = "v0.1"
+  url = "git://github.com/jhonatanTeixeira/kong-oauth-jwks-validator",
+  tag = "v0.1-2"
 }
 description = {
   summary = "Kong Oauth JWKS validator",
